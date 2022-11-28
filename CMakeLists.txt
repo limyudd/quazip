@@ -1,11 +1,17 @@
 # require 3.15 for GNUInstallDirs
 cmake_minimum_required(VERSION 3.15...3.18)
 
+if(WIN32)
+#set(CMAKE_PREFIX_PATH "C:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64" )
+set(Qt5_DIR "C:\\Qt\\Qt5.14.2\\5.14.2\\msvc2017_64\\lib\\cmake\\Qt5")
+set(CMAKE_OSX_ARCHITECTURES "x86_64")
+else()
 # cmake build qt 链接: 
 #set (CMAKE_PREFIX_PATH "/Users/a1021500717/Qt5.14.2")
 set (Qt5_DIR "/Users/a1021500717/Qt5.14.2/5.14.2/clang_64/lib/cmake/Qt5")
 # M1芯片默认的是arm64，5.14core都是x86架构。修改cmake的编译架构
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
+endif()
 project(QuaZip VERSION 1.3)
 
 set(QUAZIP_LIB_VERSION ${QuaZip_VERSION})
@@ -13,7 +19,11 @@ set(QUAZIP_LIB_SOVERSION 1.3.0)
 
 option(BUILD_SHARED_LIBS "" OFF)
 option(QUAZIP_INSTALL "" ON)
+if(WIN32) #win用qt的zlib
+option(QUAZIP_USE_QT_ZLIB "" ON)
+else()
 option(QUAZIP_USE_QT_ZLIB "" OFF)
+endif()
 option(QUAZIP_ENABLE_TESTS "Build QuaZip tests" OFF)
 
 # Set the default value of `${QUAZIP_QT_MAJOR_VERSION}`.
